@@ -8,7 +8,7 @@
  */
 abstract class URFAClient {
 
-    const VERSION = '1.3.1';
+    const VERSION = '1.3.2';
 
     const API_XML = 'api_53-003.xml';
 
@@ -51,7 +51,7 @@ abstract class URFAClient {
             'address'  => 'localhost',
             'port'     => 11758,
             'timeout'  => 30,
-            'protocol' => 'ssl',
+            'protocol' => \URFAClient_Connection::PROTOCOL_AUTO,
             'admin'    => TRUE,
             'api'      => __DIR__ . '/../xml/' . self::API_XML,
             'log'      => FALSE,

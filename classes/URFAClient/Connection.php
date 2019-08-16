@@ -6,7 +6,11 @@
  * @license https://github.com/k-shym/URFAClient/blob/master/LICENSE.md
  * @author  Konstantin Shum <k.shym@ya.ru>
  */
-final class URFAClient_Connection {
+final class URFAClient_Connection
+{
+    public const PROTOCOL_SSL = 'ssl';
+    public const PROTOCOL_TLS = 'tls';
+    public const PROTOCOL_AUTO = 'auto';
 
     /**
      * @var Resource (stream)
@@ -29,25 +33,23 @@ final class URFAClient_Connection {
     public $ipv6 = TRUE;
 
     /**
-     * Конструктор соединения
      *
      * @param array $data Конфигурация
      * @throws Exception
      */
-    public function __construct(Array $data)
+    public function __construct(array $data)
     {
         $context = stream_context_create();
 
-        if ($data['admin'] AND $data['protocol'] === 'ssl')
-        {
+        if ($data['admin'] AND $data['protocol'] === self::PROTOCOL_SSL) {
             stream_context_set_option($context, 'ssl', 'capture_peer_cert', TRUE);
             stream_context_set_option($context, 'ssl', 'local_cert', __DIR__ . '/../../admin.crt');
             stream_context_set_option($context, 'ssl', 'passphrase', 'netup');
             stream_context_set_option($context, 'ssl', 'ciphers', 'SSLv3');
-        }
-        elseif ($data['protocol'] === 'tls' OR $data['protocol'] === 'ssl')
-        {
+        } else if ($data['protocol'] === self::PROTOCOL_TLS || $data['protocol'] === self::PROTOCOL_SSL) {
             stream_context_set_option($context, 'ssl', 'ciphers', 'ADH-RC4-MD5');
+        } else if ($data['protocol'] === self::PROTOCOL_AUTO) {
+            stream_context_set_option($context, 'ssl', 'ciphers', 'AES128-SHA');
         }
 
         stream_context_set_option($context, 'ssl', 'verify_peer', FALSE);
