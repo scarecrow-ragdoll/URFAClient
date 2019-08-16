@@ -1,5 +1,5 @@
 {
-    "name": "tshadrin/urfaclient",
+    "name": "tshadrin/urfa-client",
     "description": "Universal PHP client billing system NetUp UTM5 based api.xml",
     "version": "1.3.2",
     "type": "library",
